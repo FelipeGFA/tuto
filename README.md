@@ -1,140 +1,113 @@
-## 📋 Pré-requisitos (O que você precisa)
+## 📋 1. Pré-requisitos (O que você precisa)
 
-Antes de começar, certifique-se de ter os itens abaixo:
-
-1.  **Computador (Windows é o foco deste guia)**.
-2.  **Cabo USB de Dados**: Não use apenas um cabo de carregar. O cabo precisa ser capaz de transferir arquivos entre o PC e o celular.
-3.  **Celular Android** com o Mihon instalado.
-4.  **Java (JDK)**: O computador precisa do Java instalado para compilar o código.
-    *    Baixe e instale o [Eclipse Adoptium (JDK 17)](https://adoptium.net/pt-BR/download?link=https%3A%2F%2Fgithub.com%2Fadoptium%2Ftemurin17-binaries%2Freleases%2Fdownload%2Fjdk-17.0.17%252B10%2FOpenJDK17U-jdk_x64_windows_hotspot_17.0.17_10.msi&vendor=Adoptium). Durante a instalação, certifique-se de marcar a opção "Set JAVA_HOME variable".
-5.  **Git**: Ferramenta para baixar o código.
-    *   *Baixe aqui:* [Git for Windows](https://git-scm.com/download/win). Instale clicando em "Next" até o fim.
+1.  **Computador (Windows)**.
+2.  **Cabo USB** (para passar o arquivo para o celular).
+3.  **Java (JDK)**: Necessário para gerar o aplicativo.
+    *   *Baixe e instale:* [Eclipse Adoptium (JDK 17)](https://adoptium.net/pt-BR/download?link=https%3A%2F%2Fgithub.com%2Fadoptium%2Ftemurin17-binaries%2Freleases%2Fdownload%2Fjdk-17.0.17%252B10%2FOpenJDK17U-jdk_x64_windows_hotspot_17.0.17_10.msi&vendor=Adoptium).
+    *   *Dica:* Na instalação, marque a opção "Set JAVA_HOME variable".
+4.  **Git**: Ferramenta para baixar o código.
+    *   *Baixe e instale:* [Git for Windows](https://git-scm.com/download/win). (Vá clicando em "Next").
 
 ---
 
-## 🚀 Passo 1: Preparando o Ambiente (ADB e Depuração USB)
+## 📥 2. Baixando o Código Fonte
 
-Para instalar o aplicativo criado diretamente do computador para o celular, usaremos o **ADB**.
+Vamos baixar apenas os arquivos necessários para economizar tempo.
 
-### 1.1 Baixar as Ferramentas de Plataforma
-1.  Baixe o pacote oficial do Google: [Platform-tools (Windows)](https://dl.google.com/android/repository/platform-tools-latest-windows.zip?hl=pt-br_).
-2.  Extraia o arquivo `.zip` para uma pasta de fácil acesso (exemplo: `C:\adb`).
-
-### 1.2 Habilitar a Depuração USB no Celular
-1.  Vá em **Configurações** > **Sobre o telefone**.
-2.  Toque 7 vezes seguidas em **Número da versão** (ou "Número de compilação") até aparecer a mensagem "Você agora é um desenvolvedor".
-3.  Volte, vá em **Sistema** > **Opções do Desenvolvedor**.
-4.  Ative a opção **Depuração USB**.
-5.  Conecte o celular ao PC com o cabo USB.
-6.  Uma mensagem aparecerá na tela do celular perguntando se confia no computador. Marque "Sempre confiar" e toque em **Permitir**.
-
----
-
-## 📥 Passo 2: Baixando o Código Fonte
-
-Vamos baixar apenas os arquivos necessários do repositório oficial, para economizar tempo e internet.
-
-1.  Abra a pasta onde você quer salvar o projeto (pode ser na Área de Trabalho).
-2.  Clique com o botão direito em um espaço vazio e selecione **"Open Git Bash here"** (ou abra o Terminal/PowerShell e navegue até a pasta).
-3.  Execute os comandos abaixo, um por um (copie e cole):
+1.  Crie uma pasta na sua Área de Trabalho chamada `Mihon-Ext`.
+2.  Abra essa pasta, clique com o botão direito em um espaço vazio e selecione **"Open Git Bash here"**.
+3.  Copie e cole os comandos abaixo na janela preta que abrir (um por um):
 
 ```bash
-# 1. Clona o repositório base (sem baixar todos os arquivos ainda)
+# 1. Clona o repositório base
 git clone --filter=blob:none --sparse https://github.com/keiyoushi/extensions-source
 
 # 2. Entra na pasta criada
 cd extensions-source/
 
-# 3. Configura o modo de download esparso
+# 3. Configura o modo de download leve
 git sparse-checkout set --cone --sparse-index
 
-# 4. Adiciona as pastas essenciais do projeto
+# 4. Adiciona as pastas de ferramentas
 git sparse-checkout add buildSrc core gradle lib lib-multisrc utils
 
-# 5. Adiciona APENAS a extensão do MangaLivre (o que nos interessa)
+# 5. Adiciona a pasta da extensão MangaLivre
 git sparse-checkout add src/pt/mangalivre
 ```
 
 ---
 
-## ✏️ Passo 3: Atualizando o Código (A Correção)
+## ✏️ 3. Aplicando a Correção (Copiar e Colar Código)
 
-O código oficial pode estar desatualizado. Vamos substituir dois arquivos com uma versão corrigida (créditos ao usuário *rafaelbellintani*).
+Vamos atualizar os arquivos com a versão que funciona (créditos ao *rafaelbellintani*).
 
 ### 3.1 Substituir o `MangaLivre.kt`
-1.  No seu computador, navegue pelas pastas que você acabou de baixar até chegar em:
-    `extensions-source/src/pt/mangalivre/src/eu/kanade/tachiyomi/extension/pt/mangalivre/`
-2.  Você verá um arquivo chamado `MangaLivre.kt`.
-3.  Abra este arquivo com o Bloco de Notas ou qualquer editor de texto.
-4.  Apague **todo** o conteúdo dele.
-5.  Acesse este link: [Código do MangaLivre.kt Corrigido](https://github.com/rafaelbellintani/extensions-source/blob/6387d053ff5df48036714623e804d35cb9df96b6/src/pt/mangalivre/src/eu/kanade/tachiyomi/extension/pt/mangalivre/MangaLivre.kt).
-6.  Copie o código do site, cole no seu arquivo no Bloco de Notas e **Salvee**.
+1.  No computador, navegue até:
+    `Mihon-Ext/extensions-source/src/pt/mangalivre/src/eu/kanade/tachiyomi/extension/pt/mangalivre/`
+2.  Abra o arquivo `MangaLivre.kt` com o **Bloco de Notas**.
+3.  Apague **tudo** o que está escrito nele.
+4.  Copie o código deste link: [Novo código MangaLivre.kt](https://github.com/rafaelbellintani/extensions-source/blob/6387d053ff5df48036714623e804d35cb9df96b6/src/pt/mangalivre/src/eu/kanade/tachiyomi/extension/pt/mangalivre/MangaLivre.kt).
+5.  Cole no Bloco de Notas e **Salve**.
 
 ### 3.2 Substituir o `build.gradle`
-1.  Volte algumas pastas até: `extensions-source/src/pt/mangalivre/`.
-2.  Você verá um arquivo chamado `build.gradle`.
-3.  Abra com o Bloco de Notas.
-4.  Apague **todo** o conteúdo.
-5.  Acesse este link: [Código do build.gradle Corrigido](https://github.com/rafaelbellintani/extensions-source/blob/6387d053ff5df48036714623e804d35cb9df96b6/src/pt/mangalivre/build.gradle).
-6.  Copie o código do site, cole no seu arquivo e **Salve**.
+1.  Volte algumas pastas até: `Mihon-Ext/extensions-source/src/pt/mangalivre/`.
+2.  Abra o arquivo `build.gradle` com o **Bloco de Notas**.
+3.  Apague **tudo**.
+4.  Copie o código deste link: [Novo código build.gradle](https://github.com/rafaelbellintani/extensions-source/blob/6387d053ff5df48036714623e804d35cb9df96b6/src/pt/mangalivre/build.gradle).
+5.  Cole no Bloco de Notas e **Salve**.
 
 ---
 
-## 🛠️ Passo 4: Compilando a Extensão
+## 🛠️ 4. Compilando a Extensão
 
-Agora vamos transformar esse código em um aplicativo instalável (`.apk`).
+Agora vamos criar o arquivo de instalação (`.apk`).
 
-1.  Volte para o terminal (Git Bash ou PowerShell) dentro da pasta `extensions-source`.
-2.  O repositório já possui uma ferramenta chamada `gradlew` que baixa tudo o que é necessário para compilar. Você não precisa instalar o Gradle manualmente, apenas o Java (Passo 1).
-3.  Execute o comando de compilação:
+1.  Volte para o **Git Bash** (ou terminal). Certifique-se de estar dentro da pasta `extensions-source`.
+2.  Execute o comando abaixo para iniciar a compilação (o ponto e a barra no início são importantes):
 
-**No Windows (PowerShell ou CMD):**
-```powershell
-.\gradlew :src:pt:mangalivre:assembleDebug
-```
-
-**No Linux/Mac ou Git Bash:**
+**Comando:**
 ```bash
 ./gradlew :src:pt:mangalivre:assembleDebug
 ```
 
-*Nota: A primeira vez pode demorar alguns minutos pois ele baixará dependências da internet.*
-
-Se tudo der certo, você verá a mensagem **BUILD SUCCESSFUL**.
+*Nota: Isso pode demorar alguns minutos na primeira vez. Aguarde aparecer a mensagem **BUILD SUCCESSFUL**.*
 
 ---
 
-## 📲 Passo 5: Instalando no Celular via ADB
+## 📲 5. Instalando no Celular
 
-Agora que o arquivo `.apk` foi criado, vamos instalá-lo no seu celular usando as ferramentas que baixamos no Passo 1.
+O arquivo `.apk` foi criado no seu computador. Agora precisamos colocá-lo no celular.
 
-1.  Certifique-se que o celular está conectado e desbloqueado.
-2.  Localize onde você extraiu o **platform-tools** (ex: `C:\adb`).
-3.  Copie o arquivo `.apk` gerado. Ele estará localizado na pasta do projeto em:
-    `extensions-source/src/pt/mangalivre/build/outputs/apk/debug/`
-    *(O arquivo deve se chamar algo como `mangalivre-debug.apk`)*.
-4.  Cole esse arquivo APK dentro da pasta do `platform-tools` (junto com o `adb.exe`).
-5.  Dentro da pasta `platform-tools`, segure **Shift**, clique com o botão direito em um espaço vazio e escolha **"Abrir janela do PowerShell aqui"** (ou Terminal).
-6.  Execute o comando para instalar:
+### Localize o arquivo APK:
+No seu computador, navegue até a pasta onde o arquivo foi gerado:
+`extensions-source/src/pt/mangalivre/build/outputs/apk/debug/`
+*(O arquivo deve se chamar `mangalivre-debug.apk` ou similar)*.
 
-```powershell
-.\adb install mangalivre-debug.apk
-```
+### Opção A: Instalação Manual (Mais Fácil)
+1.  Conecte seu celular ao computador via cabo USB.
+2.  No celular, se aparecer uma notificação, escolha a opção **"Transferência de Arquivos"** (MTP).
+3.  No computador, copie o arquivo `mangalivre-debug.apk`.
+4.  Abra o armazenamento do celular pelo computador e cole o arquivo em uma pasta fácil, como **Downloads**.
+5.  **No Celular:** Abra seu gerenciador de arquivos, vá até a pasta Downloads e toque no arquivo `mangalivre-debug.apk`.
+6.  Se o celular pedir permissão para instalar fontes desconhecidas, autorize e clique em **Instalar**.
 
-*Se aparecer "Success", a extensão foi instalada!*
+### Opção B: Instalação via ADB (Avançado)
+*Use esta opção apenas se você já tiver o ADB configurado e preferir usar linha de comando.*
+1.  Certifique-se de ter o [Platform-tools](https://dl.google.com/android/repository/platform-tools-latest-windows.zip?hl=pt-br_) baixado e a Depuração USB ativada no celular.
+2.  Abra o terminal na pasta do platform-tools.
+3.  Digite: `adb install "caminho/do/seu/arquivo/mangalivre-debug.apk"`
 
 ---
 
-## ⚙️ Passo 6: Configuração Final no Mihon
+## ⚙️ 6. Configuração Final no Mihon (Obrigatório)
 
-Para que a extensão funcione corretamente, é necessário um truque final devido às proteções do site.
+Para carregar os capítulos, siga este passo a passo final:
 
-1.  Abra o **Mihon** no celular.
-2.  Vá em **Navegar** -> **Extensões** e verifique se o MangaLivre está lá e ativado.
-3.  Vá na sua biblioteca ou na busca e tente abrir o MangaLivre.
-4.  **Importante:** Clique no ícone do **Globo (WebView)** no canto superior direito para abrir o site dentro do app.
-5.  Navegue pelo site, acesse um mangá e abra um capítulo qualquer. Se pedir Login ou resolver Captcha, faça isso.
-6.  Após carregar as imagens no navegador, volte para o Mihon.
-7.  Arraste a lista para baixo para **Atualizar**.
+1.  Abra o **Mihon**.
+2.  Vá em **Navegar -> Extensões** e confira se "MangaLivre" está instalado (deve ter um ícone de aviso/escudo vermelho, pois não é oficial, clique em "Confiar").
+3.  Tente abrir a obra MangaLivre na sua biblioteca.
+4.  Clique no ícone do **Globo (WebView)** no topo direito da tela.
+5.  No navegador que abrir, acesse um capítulo e espere as imagens carregarem. Se houver Captcha ("Sou humano"), resolva-o.
+6.  Volte para o Mihon e arraste a tela para baixo para **Atualizar**.
 
-Agora os capítulos devem carregar normalmente pelo aplicativo
+Pronto! Os capítulos devem aparecer.
